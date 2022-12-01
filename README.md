@@ -11,12 +11,6 @@ https://drive.google.com/file/d/1dm4cXBBX-fcFS33Zi7IIFjTU7qywDKWK/view?usp=shari
 
 ## Applications of Simulator:
 
-- **Anisotropic Resistivity Tomography**: 
-- **2D Kolmogorov Flow**: 
-- **Flow Past a Bluff Body**: 
-- **Urban Modelling**: 
-- **Unstuctured Mesh**: 
-
 ## Requirements
 
 To install requirements:
