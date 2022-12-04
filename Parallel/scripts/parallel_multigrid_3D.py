@@ -12,7 +12,7 @@ assert tf.__version__ >= "2.0"
 # Common imports
 import numpy as np
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'  # avoid tf dnn flag issue
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # avoid tf dnn flag issue
 
 # To plot pretty figures
 import matplotlib as mpl
