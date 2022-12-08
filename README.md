@@ -6,7 +6,7 @@ https://www.imperial.ac.uk/people/boyang.chen16/document/10322/AI_for_CFD/?AI_fo
 https://www.imperial.ac.uk/people/boyang.chen16
 - **"Solving the Dsicretised Diffusion Equation in Neutron Transport using Neural Networks"**
 https://www.imperial.ac.uk/people/boyang.chen16/document/10422/A_neural_network_solver_for_Neutron_Transport/?A_neural_network_solver_for_Neutron_Transport.pdf- 
-**"Solving the Dsicrete Ordinate Equations in Neutron Transport using Neural Networks"**
+- **"Solving the Dsicrete Ordinate Equations in Neutron Transport using Neural Networks"**
 https://drive.google.com/file/d/1dm4cXBBX-fcFS33Zi7IIFjTU7qywDKWK/view?usp=sharing
 
 ## Applications of Simulator:
