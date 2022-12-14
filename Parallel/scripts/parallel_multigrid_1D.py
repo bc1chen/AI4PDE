@@ -9,7 +9,7 @@ import os
 from time import perf_counter
 
 # import halo_exchanged
-from halo_exchange_upgraded import HaloExchange
+from halos_exchange import HaloExchange
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' # avoid dnn issue
 

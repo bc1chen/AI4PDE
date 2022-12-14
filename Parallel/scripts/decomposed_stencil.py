@@ -1,4 +1,4 @@
-from halo_exchange_upgraded import HaloExchange
+from halos_exchange import HaloExchange
 from mpi4py import MPI
 import numpy as np
 import matplotlib.pyplot as plt

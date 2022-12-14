@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from time import perf_counter
-from halo_exchange_upgraded import HaloExchange
+from halos_exchange import HaloExchange
 import sys
 np.set_printoptions(threshold=sys.maxsize)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # avoid tf dnn flag issue
@@ -563,7 +563,6 @@ for t in range(100):
       current_mesh = HaloExchange.padding_block_halo_2D(current_mesh,1,0)
       current_mesh = tf.convert_to_tensor(current_mesh.reshape(1,sub_nx+2,sub_ny+2,1))
       current_mesh = he.structured_halo_update_2D(current_mesh)
-      
       
 end = perf_counter()
 print(f'[TIME CONSUMED] {end - start} sec')

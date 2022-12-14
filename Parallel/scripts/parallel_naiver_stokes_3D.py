@@ -488,7 +488,7 @@ values_p = tf.zeros(input_shape)
 # ------------------ Numerical set up ----------------------
 multi_itr = 10        # Iterations of multi-grid
 j_itr = 1             # Iterations of Jacobi
-ntime = 10           # Time steps -> should be 100
+ntime = 100           # Time steps -> should be 100
 n_out = 1           # Results output
 nrestart = 0          # Last time step for restart
 ctime_old = 0         # Last computational time for restart

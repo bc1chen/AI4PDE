@@ -1,6 +1,6 @@
 from mpi4py import MPI
 # import halo_exchange
-from halo_exchange_upgraded import HaloExchange
+from halos_exchange import HaloExchange
 import os
 import numpy as np  # cupy can be used as optimisation if CUDA/AMD GPUs are available
 from tensorflow import keras
