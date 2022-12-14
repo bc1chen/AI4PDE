@@ -24,7 +24,7 @@ mpl.rc('ytick', labelsize=12)
 import math
 from time import perf_counter
 
-from halo_exchange_upgraded import HaloExchange
+from halos_exchange import HaloExchange
 
 #============================== Initialization of original problem ==================================#
 dx = 1       # Grid size in x    
@@ -84,7 +84,6 @@ rank = he.rank # get the process rank
 
 # update halo once as the start
 current_domain = he.structured_halo_update_3D(current_domain)
-# print(current_domain.shape)
 current_domain = current_domain.numpy().reshape(sub_nx+2, sub_ny+2, sub_nz+2)
 
 #============================== Initialization CNN layers ==================================#
@@ -290,7 +289,7 @@ for multi_grid in range(multi_itr):
     w = np.zeros([1,1,1,1,1])
     r = CNN3D_A_66(values) - b # compute the residual
     
-    np.save('parallel_residuals/parallel_multigrid_3d_res_{}'.format(rank),r)
+    # np.save('parallel_residuals/parallel_multigrid_3d_res_{}'.format(rank),r)
     
     # r_64 = CNN3D_res_128(r) 
     r_32 = CNN3D_res_64(r) # 128
@@ -311,7 +310,7 @@ for multi_grid in range(multi_itr):
     for Jacobi in range(j_itr):
       temp = CNN3D_A_4(w_t1)
       w_2 = w_2 - temp/w2[0,1,1,1,0] + r_2/w2[0,1,1,1,0]
-
+      
     w_4 = CNN3D_prol_2(w_2)
     w_t2 = he.padding_block_halo_3D(w_4,1)
     w_t2 = he.structured_halo_update_3D(w_t2)
@@ -349,12 +348,15 @@ for multi_grid in range(multi_itr):
       
     w_64 = he.padding_block_halo_3D(w_64,1)
     w_64 = he.structured_halo_update_3D(w_64)
-
+    
     values = values - w_64
     tempVal = tf.reshape(values[0,1:-1,1:-1,1:-1,0],(1,sub_nx,sub_ny,sub_nz,1))
     tempVal = tempVal - CNN3D_A_66(values)/w2[0,1,1,1,0] + b/w2[0,1,1,1,0]
     values = he.padding_block_halo_3D(tempVal,1)
     values = he.structured_halo_update_3D(values)
+    
+    if he.rank == 0:
+      print('[MULTI-GRID] ',multi_grid)
     
 end_time = perf_counter()
 
