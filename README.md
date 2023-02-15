@@ -3,7 +3,6 @@ Repository for the novel CFD approach called AI4CFD and no traniing of the netwo
 - **"Using AI libraries for incompressible Computational Fluid Dynamics"** 
 https://www.imperial.ac.uk/people/boyang.chen16/document/10322/AI_for_CFD/?AI_for_CFD.pdf
 - **"Using Graph Neural Networks for Incompressible CFD on Unstructured Meshes"** \
-https://www.imperial.ac.uk/people/boyang.chen16
 - **"Solving the Dsicretised Diffusion Equation in Neutron Transport using Neural Networks"**
 https://www.imperial.ac.uk/people/boyang.chen16/document/10422/A_neural_network_solver_for_Neutron_Transport/?A_neural_network_solver_for_Neutron_Transport.pdf- 
 - **"Solving the Dsicrete Ordinate Equations in Neutron Transport using Neural Networks"** \
