@@ -53,7 +53,7 @@ class HaloExchange:
         [Halo Layers] {self.halo_size} 
         [Structured Mesh] {self.structured_mesh}
         [Double Precision] {self.is_double_precision}
-        [Corner neighboring tiles included] {self.is_corner_exchanged}
+        [Corner-neighboring tiles included] {self.is_corner_exchanged}
         ===========================================
         """
 
@@ -120,6 +120,8 @@ class HaloExchange:
         self.mpi_init(self.topology_dim, is_periodic, is_reordered)  # mpi initialization
         
         print(f'[INFO] Processor {self.rank} activated !')
+        
+        print(self.topology_dim)
 
         # return the decomposed sub-domain
         if mesh.ndim == 1:
@@ -487,7 +489,7 @@ class HaloExchange:
                 left = mid + 0.01
 
         if left**3 != num_process:
-            return (num_process,1)
+            return (num_process,1,1)
 
         return (left, left, left)
 
@@ -540,7 +542,7 @@ class HaloExchange:
             list of numpy: sub-domains
         """
         nx, ny, nz = mesh.shape
-
+        
         assert nx % proc_grid_dim[0] == 0, f"{nx} grids along x axis is not evenly divisible by {proc_grid_dim[0]}"
         assert ny % proc_grid_dim[1] == 0, f"{ny} grids along y axis is not evenly divisible by {proc_grid_dim[1]}"
         assert nz % proc_grid_dim[2] == 0, f"{nz} grids along z axis is not evenly divisible by {proc_grid_dim[2]}"

@@ -590,6 +590,7 @@ def create_dataset(nx, ny, nz):
 if __name__ == "__main__":
 
     strategy=ipu.ipu_strategy.IPUStrategy()
+    
     with strategy.scope():
         print(tf.keras.backend.floatx())
 
