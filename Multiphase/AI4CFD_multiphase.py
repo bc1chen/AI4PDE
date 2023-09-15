@@ -98,7 +98,7 @@ if Restart == True:
 ################# Only for scalar #####################
 if LSCALAR == True and Restart == False:
     alpha = np.zeros(input_shape).astype('float32')
-    alpha[0,0:128,0:100,0:100,0] = 1.0
+    alpha[0,0:32,0:25,0:25,0] = 1.0
     alpha = tf.convert_to_tensor(alpha)
     print('Switch on scalar filed solver!')
 #######################################################
