@@ -13,9 +13,9 @@ import numpy as np
 dx = 0.01
 dy = 0.01
 dz = 0.01
-nx = 512
-ny = 512
-nz = 512
+nx = 128 #512 Test a smaller case for parallelisation with Xiaohu 
+ny = 128 #512 Test a smaller case for parallelisation with Xiaohu 
+nz = 128 #512 Test a smaller case for parallelisation with Xiaohu 
 nlevel = int(math.log(nz, 2)) + 1 
 bias_initializer = tf.keras.initializers.constant(np.zeros((1,)))
 # # # ################################### # # #
