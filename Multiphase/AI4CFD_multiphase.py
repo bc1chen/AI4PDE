@@ -48,9 +48,9 @@ dy = 0.01
 dz = 0.01
 Re = 1
 ub = 1
-nx = 512
-ny = 512
-nz = 512
+nx = 128 #512Test a smaller case for parallelisation with Xiaohu 
+ny = 128 #512Test a smaller case for parallelisation with Xiaohu 
+nz = 128 #512Test a smaller case for parallelisation with Xiaohu 
 nlevel = int(math.log(nz, 2)) + 1 
 print('How many levels in multigrid', nlevel)
 #################### Create field #####£###############
@@ -76,7 +76,7 @@ LMTI = True                 # Non density for multiphase flows
 LIBM = False                # Immersed boundary method 
 nsafe = 0.5                 # Continuty equation residuals
 ctime = 0                   # Initialise ctime   
-save_fig = True            # Save results
+save_fig = False            # Save results
 Restart = False             # Restart
 eplsion_k = 1e-04
 ################# Physical parameters #################
@@ -135,9 +135,10 @@ for itime in range(1,ntime+1):
     if mgsolver_h == True:
         for multi_grid in range(10):
             w_2 = tf.zeros([1,2,2,2,1])
-            r_512 = CNN3D.A_512(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz)) - temp1
-            r_256 = CNN3D.res_512(r_512)     
-            r_128 = CNN3D.res_256(r_256)     
+            # r_512 = CNN3D.A_512(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz)) - temp1
+            r_128 = CNN3D.A_512(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz)) - temp1          
+            # r_256 = CNN3D.res_512(r_512)     
+            # r_128 = CNN3D.res_256(r_256)     
             r_64 = CNN3D.res_128(r_128) 
             r_32 = CNN3D.res_64(r_64)         
             r_16 = CNN3D.res_32(r_32) 
@@ -157,13 +158,13 @@ for itime in range(1,ntime+1):
             w_64 = CNN3D.prol_32(w_32)           
             w_64 = w_64 - CNN3D.A_64(w_64)/CNN3D.wA[0,1,1,1,0] + r_64/CNN3D.wA[0,1,1,1,0]       
             w_128 = CNN3D.prol_64(w_64)    
-            w_128 = w_128 - CNN3D.A_128(w_128)/CNN3D.wA[0,1,1,1,0] + r_128/CNN3D.wA[0,1,1,1,0]        
-            w_256 = CNN3D.prol_128(w_128)     
-            w_256 = w_256 - CNN3D.A_256(w_256)/CNN3D.wA[0,1,1,1,0] + r_256/CNN3D.wA[0,1,1,1,0]        
-            w_512 = CNN3D.prol_256(w_256) 
+            # w_128 = w_128 - CNN3D.A_128(w_128)/CNN3D.wA[0,1,1,1,0] + r_128/CNN3D.wA[0,1,1,1,0]        
+            # w_256 = CNN3D.prol_128(w_128)     
+            # w_256 = w_256 - CNN3D.A_256(w_256)/CNN3D.wA[0,1,1,1,0] + r_256/CNN3D.wA[0,1,1,1,0]        
+            # w_512 = CNN3D.prol_256(w_256) 
 
-            values_ph = values_ph - w_512
-            values_ph = values_ph - CNN3D.A_512(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz))/CNN3D.wA[0,1,1,1,0] + temp1/CNN3D.wA[0,1,1,1,0]
+            values_ph = values_ph - w_128
+            values_ph = values_ph - CNN3D.A_128(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz))/CNN3D.wA[0,1,1,1,0] + temp1/CNN3D.wA[0,1,1,1,0]
 # Momentum equation (two-stepping scheme)
 # First step for solving u
     temp1 = f.PG_vector_SAME(f.boundary_condition_velocity(values_u,values_v,values_w,nx,ny,nz)[0],
@@ -256,9 +257,10 @@ for itime in range(1,ntime+1):
     if mgsolver_d == True:
         for multi_grid in range(10):
             w_2 = tf.zeros([1,2,2,2,1])
-            r_512 = CNN3D.A_512(f.boundary_condition_pressure_d(values_pd,nx,ny,nz)) - temp1
-            r_256 = CNN3D.res_512(r_512)     
-            r_128 = CNN3D.res_256(r_256)     
+            # r_512 = CNN3D.A_512(f.boundary_condition_pressure_d(values_pd,nx,ny,nz)) - temp1
+            r_128 = CNN3D.A_128(f.boundary_condition_pressure_d(values_pd,nx,ny,nz)) - temp1
+            # r_256 = CNN3D.res_512(r_512)     
+            # r_128 = CNN3D.res_256(r_256)     
             r_64 = CNN3D.res_128(r_128) 
             r_32 = CNN3D.res_64(r_64)         
             r_16 = CNN3D.res_32(r_32) 
@@ -278,13 +280,13 @@ for itime in range(1,ntime+1):
             w_64 = CNN3D.prol_32(w_32)           
             w_64 = w_64 - CNN3D.A_64(w_64)/CNN3D.wA[0,1,1,1,0] + r_64/CNN3D.wA[0,1,1,1,0]     
             w_128 = CNN3D.prol_64(w_64)    
-            w_128 = w_128 - CNN3D.A_128(w_128)/CNN3D.wA[0,1,1,1,0] + r_128/CNN3D.wA[0,1,1,1,0]        
-            w_256 = CNN3D.prol_128(w_128)     
-            w_256 = w_256 - CNN3D.A_256(w_256)/CNN3D.wA[0,1,1,1,0] + r_256/CNN3D.wA[0,1,1,1,0]        
-            w_512 = CNN3D.prol_256(w_256) 
+            # w_128 = w_128 - CNN3D.A_128(w_128)/CNN3D.wA[0,1,1,1,0] + r_128/CNN3D.wA[0,1,1,1,0]        
+            # w_256 = CNN3D.prol_128(w_128)     
+            # w_256 = w_256 - CNN3D.A_256(w_256)/CNN3D.wA[0,1,1,1,0] + r_256/CNN3D.wA[0,1,1,1,0]        
+            # w_512 = CNN3D.prol_256(w_256) 
 
-            values_pd = values_pd - w_512
-            values_pd = values_pd - CNN3D.A_512(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/CNN3D.wA[0,1,1,1,0] + temp1/CNN3D.wA[0,1,1,1,0]
+            values_pd = values_pd - w_128
+            values_pd = values_pd - CNN3D.A_128(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/CNN3D.wA[0,1,1,1,0] + temp1/CNN3D.wA[0,1,1,1,0]
 # grap p (hydrostatic and non-hydrostatic pressure)   
     values_u = values_u + CNN3D.xadv(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/rho*dt 
     values_v = values_v + CNN3D.yadv(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/rho*dt 
