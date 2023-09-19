@@ -55,6 +55,7 @@ nlevel = int(math.log(nz, 2)) + 1
 print('How many levels in multigrid', nlevel)
 #################### Create field #####£###############
 input_shape = (1,1,nz,ny,nx)
+input_shape_pad = (1,1,nz+2,ny+2,nx+2)
 values_u = torch.zeros(input_shape, device=device)
 values_v = torch.zeros(input_shape, device=device)
 values_w = torch.zeros(input_shape, device=device)
@@ -234,18 +235,18 @@ for itime in range(1,ntime+1):
     values_u * CNN3D.xadv(f.boundary_condition_indicator_SAME(alpha,nx,ny,nz)) * dt - \
     values_v * CNN3D.yadv(f.boundary_condition_indicator_SAME(alpha,nx,ny,nz)) * dt - \
     values_w * CNN3D.zadv(f.boundary_condition_indicator_SAME(alpha,nx,ny,nz)) * dt 
-    # temp1 = alpha + temp1*0.5
-    alpha = alpha + temp1
+    temp1 = alpha + temp1 * 0.5
+    # alpha = alpha + temp1
    
-    # temp2 = f.PG_turb_scalar_SAME(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),torch.ones(input_shape, device=device)),torch.zeros(input_shape, device=device)),
-    #     torch.maximum(torch.minimum(temp1,torch.ones(input_shape, device=device)),torch.zeros(input_shape, device=device)),values_u,values_v,values_w,eplsion_k,nx,ny,nz,dx,dt) * dt - \
-    # values_u * CNN3D.xadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),torch.zeros(input_shape, device=device))) * dt - \
-    # values_v * CNN3D.yadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),torch.zeros(input_shape, device=device))) * dt - \
-    # values_w * CNN3D.zadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),torch.zeros(input_shape, device=device))) * dt 
-    # alpha = alpha + temp2
+    temp2 = f.PG_turb_scalar_SAME(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),torch.ones(input_shape_pad)),torch.zeros(input_shape_pad)),
+        torch.maximum(torch.minimum(temp1,torch.ones(input_shape)),torch.zeros(input_shape)),values_u,values_v,values_w,eplsion_k,nx,ny,nz,dx,dt) * dt - \
+    values_u * CNN3D.xadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),torch.ones(input_shape_pad)),torch.zeros(input_shape_pad))) * dt - \
+    values_v * CNN3D.yadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),torch.ones(input_shape_pad)),torch.zeros(input_shape_pad))) * dt - \
+    values_w * CNN3D.zadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),torch.ones(input_shape_pad)),torch.zeros(input_shape_pad))) * dt 
+    alpha = alpha + temp2
 # Avoid sharp interfacing    
-    alpha = torch.minimum(alpha,torch.ones(input_shape, device=device))
-    alpha = torch.maximum(alpha,torch.zeros(input_shape, device=device))
+    alpha = torch.minimum(alpha,torch.ones(input_shape))
+    alpha = torch.maximum(alpha,torch.zeros(input_shape))
     temp6 = rho
     rho = alpha*rho_l + (1 - alpha) * rho_g * 50  
 # Multigrid for non-hydrostatic pressure
