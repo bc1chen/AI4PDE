@@ -28,9 +28,9 @@ wA = torch.zeros([1, 1, 3, 3, 3])
 w1[0, 0, 0,:,:] = pd1/dx**2
 w1[0, 0, 1,:,:] = pd2/dx**2
 w1[0, 0, 2,:,:] = pd3/dx**2
-wA[0, 0, 0,:,:] = pd1/dx**2
-wA[0, 0, 1,:,:] = pd2/dx**2
-wA[0, 0, 2,:,:] = pd3/dx**2
+wA[0, 0, 0,:,:] = -pd1/dx**2
+wA[0, 0, 1,:,:] = -pd2/dx**2
+wA[0, 0, 2,:,:] = -pd3/dx**2
 # Define the rest of the filters in a similar way
 # Gradient filters
 p_div_x1 = torch.tensor([[-0.014, 0.0, 0.014],
