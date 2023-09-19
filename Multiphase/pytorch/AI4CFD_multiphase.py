@@ -48,9 +48,9 @@ dy = 0.01
 dz = 0.01
 Re = 1
 ub = 1
-nx = 512
-ny = 512
-nz = 512
+nx = 128
+ny = 128
+nz = 128
 nlevel = int(math.log(nz, 2)) + 1 
 print('How many levels in multigrid', nlevel)
 #################### Create field #####£###############
@@ -98,7 +98,7 @@ if Restart == True:
 ################# Only for scalar #####################
 if LSCALAR == True and Restart == False:
     alpha = torch.zeros(input_shape, dtype=torch.float32, device=device) 
-    alpha[0,0,0:128,0:100,0:100].fill_(1.0)
+    alpha[0,0,0:32,0:25,0:25].fill_(1.0)
     print('Switch on scalar filed solver!')
 #######################################################
 ################# Only for scalar #####################
@@ -134,9 +134,9 @@ for itime in range(1,ntime+1):
     if mgsolver_h == True:
         for multi_grid in range(10):
             w_2 = torch.zeros(1,1,2,2,2)
-            r_512 = CNN3D.A_512(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz)) - temp1
-            r_256 = CNN3D.res_512(r_512)     
-            r_128 = CNN3D.res_256(r_256)     
+            r_128 = CNN3D.A_128(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz)) - temp1
+            # r_256 = CNN3D.res_512(r_512)     
+            # r_128 = CNN3D.res_256(r_256)     
             r_64 = CNN3D.res_128(r_128) 
             r_32 = CNN3D.res_64(r_64)         
             r_16 = CNN3D.res_32(r_32) 
@@ -145,9 +145,9 @@ for itime in range(1,ntime+1):
             r_2 = CNN3D.res_4(r_4) 
 
             w_2 = w_2 - CNN3D.A_2(w_2)/CNN3D.wA[0,0,1,1,1] + r_2/CNN3D.wA[0,0,1,1,1]
-            print("w_2 size is ", w_2.size())
+            # print("w_2 size is ", w_2.size())
             w_4 = CNN3D.prol_2(w_2) 
-            print("w_4 size is ", w_4.size())
+            # print("w_4 size is ", w_4.size())
             w_4 = w_4 - CNN3D.A_4(w_4)/CNN3D.wA[0,0,1,1,1] + r_4/CNN3D.wA[0,0,1,1,1]       
             w_8 = CNN3D.prol_4(w_4) 
             w_8 = w_8 - CNN3D.A_8(w_8)/CNN3D.wA[0,0,1,1,1] + r_8/CNN3D.wA[0,0,1,1,1]      
@@ -158,13 +158,13 @@ for itime in range(1,ntime+1):
             w_64 = CNN3D.prol_32(w_32)           
             w_64 = w_64 - CNN3D.A_64(w_64)/CNN3D.wA[0,0,1,1,1] + r_64/CNN3D.wA[0,0,1,1,1]       
             w_128 = CNN3D.prol_64(w_64)    
-            w_128 = w_128 - CNN3D.A_128(w_128)/CNN3D.wA[0,0,1,1,1] + r_128/CNN3D.wA[0,0,1,1,1]        
-            w_256 = CNN3D.prol_128(w_128)     
-            w_256 = w_256 - CNN3D.A_256(w_256)/CNN3D.wA[0,0,1,1,1] + r_256/CNN3D.wA[0,0,1,1,1]        
-            w_512 = CNN3D.prol_256(w_256) 
+            # w_128 = w_128 - CNN3D.A_128(w_128)/CNN3D.wA[0,0,1,1,1] + r_128/CNN3D.wA[0,0,1,1,1]        
+            # w_256 = CNN3D.prol_128(w_128)     
+            # w_256 = w_256 - CNN3D.A_256(w_256)/CNN3D.wA[0,0,1,1,1] + r_256/CNN3D.wA[0,0,1,1,1]        
+            # w_512 = CNN3D.prol_256(w_256) 
 
-            values_ph = values_ph - w_512
-            values_ph = values_ph - CNN3D.A_512(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz))/CNN3D.wA[0,0,1,1,1] + temp1/CNN3D.wA[0,0,1,1,1]
+            values_ph = values_ph - w_128
+            values_ph = values_ph - CNN3D.A_128(f.boundary_condition_pressure_h(values_ph,nx,ny,nz,f.boundary_condition_density(rho,nx,ny,nz),dz))/CNN3D.wA[0,0,1,1,1] + temp1/CNN3D.wA[0,0,1,1,1]
 # Momentum equation (two-stepping scheme)
 # First step for solving u
     temp1 = f.PG_vector_SAME(f.boundary_condition_velocityU(values_u,nx,ny,nz),
@@ -234,17 +234,18 @@ for itime in range(1,ntime+1):
     values_u * CNN3D.xadv(f.boundary_condition_indicator_SAME(alpha,nx,ny,nz)) * dt - \
     values_v * CNN3D.yadv(f.boundary_condition_indicator_SAME(alpha,nx,ny,nz)) * dt - \
     values_w * CNN3D.zadv(f.boundary_condition_indicator_SAME(alpha,nx,ny,nz)) * dt 
-    temp1 = alpha + temp1*0.5
-    
-    temp2 = f.PG_turb_scalar_SAME(torch.maxmum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),0),
-        torch.maxmum(torch.minimum(temp1,1),0),values_u,values_v,values_w,eplsion_k,nx,ny,nz,dx,dt) * dt - \
-    values_u * CNN3D.xadv(torch.maxmum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),0)) * dt - \
-    values_v * CNN3D.yadv(torch.maxmum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),0)) * dt - \
-    values_w * CNN3D.zadv(torch.maxmum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),0)) * dt 
-    alpha = alpha + temp2
+    # temp1 = alpha + temp1*0.5
+    alpha = alpha + temp1
+   
+    # temp2 = f.PG_turb_scalar_SAME(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),torch.ones(input_shape, device=device)),torch.zeros(input_shape, device=device)),
+    #     torch.maximum(torch.minimum(temp1,torch.ones(input_shape, device=device)),torch.zeros(input_shape, device=device)),values_u,values_v,values_w,eplsion_k,nx,ny,nz,dx,dt) * dt - \
+    # values_u * CNN3D.xadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),torch.zeros(input_shape, device=device))) * dt - \
+    # values_v * CNN3D.yadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),torch.zeros(input_shape, device=device))) * dt - \
+    # values_w * CNN3D.zadv(torch.maximum(torch.minimum(f.boundary_condition_indicator_SAME(temp1,nx,ny,nz),1),torch.zeros(input_shape, device=device))) * dt 
+    # alpha = alpha + temp2
 # Avoid sharp interfacing    
-    alpha = torch.minimum(alpha,1)
-    alpha = torch.maxmum(alpha,0)
+    alpha = torch.minimum(alpha,torch.ones(input_shape, device=device))
+    alpha = torch.maximum(alpha,torch.zeros(input_shape, device=device))
     temp6 = rho
     rho = alpha*rho_l + (1 - alpha) * rho_g * 50  
 # Multigrid for non-hydrostatic pressure
@@ -257,9 +258,9 @@ for itime in range(1,ntime+1):
     if mgsolver_d == True:
         for multi_grid in range(10):
             w_2 = torch.zeros(1,1,2,2,2)
-            r_512 = CNN3D.A_512(f.boundary_condition_pressure_d(values_pd,nx,ny,nz)) - temp1
-            r_256 = CNN3D.res_512(r_512)     
-            r_128 = CNN3D.res_256(r_256)     
+            r_128 = CNN3D.A_128(f.boundary_condition_pressure_d(values_pd,nx,ny,nz)) - temp1
+            # r_256 = CNN3D.res_512(r_512)     
+            # r_128 = CNN3D.res_256(r_256)     
             r_64 = CNN3D.res_128(r_128) 
             r_32 = CNN3D.res_64(r_64)         
             r_16 = CNN3D.res_32(r_32) 
@@ -279,22 +280,22 @@ for itime in range(1,ntime+1):
             w_64 = CNN3D.prol_32(w_32)           
             w_64 = w_64 - CNN3D.A_64(w_64)/CNN3D.wA[0,0,1,1,1] + r_64/CNN3D.wA[0,0,1,1,1]     
             w_128 = CNN3D.prol_64(w_64)    
-            w_128 = w_128 - CNN3D.A_128(w_128)/CNN3D.wA[0,0,1,1,1] + r_128/CNN3D.wA[0,0,1,1,1]        
-            w_256 = CNN3D.prol_128(w_128)     
-            w_256 = w_256 - CNN3D.A_256(w_256)/CNN3D.wA[0,0,1,1,1] + r_256/CNN3D.wA[0,0,1,1,1]        
-            w_512 = CNN3D.prol_256(w_256) 
+            # w_128 = w_128 - CNN3D.A_128(w_128)/CNN3D.wA[0,0,1,1,1] + r_128/CNN3D.wA[0,0,1,1,1]        
+            # w_256 = CNN3D.prol_128(w_128)     
+            # w_256 = w_256 - CNN3D.A_256(w_256)/CNN3D.wA[0,0,1,1,1] + r_256/CNN3D.wA[0,0,1,1,1]        
+            # w_512 = CNN3D.prol_256(w_256) 
 
-            values_pd = values_pd - w_512
-            values_pd = values_pd - CNN3D.A_512(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/CNN3D.wA[0,1,1,1,0] + temp1/CNN3D.wA[0,1,1,1,0]
+            values_pd = values_pd - w_128
+            values_pd = values_pd - CNN3D.A_128(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/CNN3D.wA[0,0,1,1,1] + temp1/CNN3D.wA[0,0,1,1,1]
 # grap p (hydrostatic and non-hydrostatic pressure)   
     values_u = values_u + CNN3D.xadv(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/rho*dt 
     values_v = values_v + CNN3D.yadv(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/rho*dt 
     values_w = values_w + CNN3D.zadv(f.boundary_condition_pressure_d(values_pd,nx,ny,nz))/rho*dt   
 # output   
     print('Time step:', itime) 
-    print('Pressure error:', np.max(w_128), 'cty equation residual:', np.max(r_128))
+    print('Pressure error:', torch.max(w_128), 'cty equation residual:', torch.max(r_128))
     print('========================================================')
-    if np.max(np.abs(w_128)) > 80000.0:
+    if torch.max(torch.abs(w_128)) > 80000.0:
         print('Not converged !!!!!!')
         break
     if save_fig == True:

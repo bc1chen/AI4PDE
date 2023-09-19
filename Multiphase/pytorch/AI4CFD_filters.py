@@ -7,9 +7,9 @@ import math
 dx = 0.01
 dy = 0.01
 dz = 0.01
-nx = 512
-ny = 512
-nz = 512
+nx = 128
+ny = 128
+nz = 128
 nlevel = int(math.log(nz,2)) + 1
 bias_initializer = torch.tensor([0.0])
 
