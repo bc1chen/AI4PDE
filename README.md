@@ -19,6 +19,7 @@
 Multiphase Flow Equations with Interface Capturing on Structured Grids Using Machine Learning
 Libraries. (In preparation)]**
 - **[(2023) Solving the Discretised Shallow Water Equations Using Neural Networks. (In preparation)]**
+- **[(2023) Implementing the Discontinuous-Galerkin Finite Element Method using Graph Neural Networks. (Submitted)]**
 - **[(2023) Using AI libraries for incompressible Computational Fluid Dynamics. (In preparation)](https://www.imperial.ac.uk/people/boyang.chen16/document/10322/AI_for_CFD/?AI_for_CFD.pdf)**
 
 
