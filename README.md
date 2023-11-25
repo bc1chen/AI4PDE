@@ -1,4 +1,4 @@
-## AI4PDE
+## AI4PDE (CFD)
 #### Single phase flow 
 ###### AI4Urban  - Air flow in central London (South kensington) 
 ###### AI4Health - Indoor air quality (Classroom, meeting room, train carriage)
