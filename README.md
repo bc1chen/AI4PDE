@@ -12,11 +12,8 @@
 ###### AI4SWE   - Cariisle 2005 flooding (2D Shallow Water Equation)
 
 ## Outputs
-
-- **[(2023) Using AI libraries for incompressible Computational Fluid Dynamics (In preparation)](https://www.imperial.ac.uk/people/boyang.chen16/document/10322/AI_for_CFD/?AI_for_CFD.pdf)** 
-
-- **"Solving the Dsicretised Diffusion Equation in Neutron Transport using Neural Networks"**
-https://drive.google.com/file/d/18ssthBBOi4zuY8oLRFKO9rXbjUg9ictl/view?usp=share_link
+- **[(2023) Solving the Dsicretised Diffusion Equation in Neutron Transport using Neural Networks. International Journal for Numerical Methods in Engineering.] (http://doi.org/10.1002/nme.7321)**
+- **[(2023) Using AI libraries for incompressible Computational Fluid Dynamics. (In preparation)](https://www.imperial.ac.uk/people/boyang.chen16/document/10322/AI_for_CFD/?AI_for_CFD.pdf)** 
 - **"Solving the Dsicrete Ordinate Equations in Neutron Transport using Neural Networks"**
 https://drive.google.com/file/d/1dm4cXBBX-fcFS33Zi7IIFjTU7qywDKWK/view?usp=sharing
 
