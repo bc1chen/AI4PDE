@@ -15,9 +15,10 @@
 - **[(2023) Solving the Dsicretised Diffusion Equation in Neutron Transport using Neural Networks. International Journal for Numerical Methods in Engineering](http://doi.org/10.1002/nme.7321)**
 - **[(2023) Solving the Discretised Boltzmann Transport Equations using Neural Networks: Applications in Neutron Transport. arXiv preprint](https://doi.org/10.48550/arXiv.2301.09991)**
 - **[(2023) Computational Modelling in Nuclear Science and Engineering: The Role of Artificial Intelligence. Nuclear Future Journal](https://www.nuclearinst.com/Nuclear-Future-19)**
-- **[Solving the Discretised
+- **[(2023) Solving the Discretised
 Multiphase Flow Equations with Interface Capturing on Structured Grids Using Machine Learning
-Libraries.]**
+Libraries. (In preparation)]**
+- **[(2023) Solving the Discretised Shallow Water Equations Using Neural Networks. (In preparation)]**
 - **[(2023) Using AI libraries for incompressible Computational Fluid Dynamics. (In preparation)](https://www.imperial.ac.uk/people/boyang.chen16/document/10322/AI_for_CFD/?AI_for_CFD.pdf)**
 
 
