@@ -13,7 +13,7 @@
 
 ## Outputs
 
-- **"Using AI libraries for incompressible Computational Fluid Dynamics"** 
+- **"[Using AI libraries for incompressible Computational Fluid Dynamics]"** 
 https://www.imperial.ac.uk/people/boyang.chen16/document/10322/AI_for_CFD/?AI_for_CFD.pdf
 - **"Solving the Dsicretised Diffusion Equation in Neutron Transport using Neural Networks"**
 https://drive.google.com/file/d/18ssthBBOi4zuY8oLRFKO9rXbjUg9ictl/view?usp=share_link
