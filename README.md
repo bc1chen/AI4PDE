@@ -25,6 +25,6 @@ Libraries. (In preparation)]**
 - **[(2023) Using AI libraries for incompressible Computational Fluid Dynamics. (In preparation)](https://www.imperial.ac.uk/people/boyang.chen16/document/10322/AI_for_CFD/?AI_for_CFD.pdf)**
 
 #### Conference paper 
-- ** (2023) Solving Multiphase Flow Problems using Intelligent Finite Element Methods. CM4P conference, Porto, Portugal**
-- ** (2023) Efficient Finite Element Methods formed from Artificial Neural Networks for Solving CFD Problems. 22nd IACM Computational Fluids Conference, Cannes, France**
+- **(2023) Solving Multiphase Flow Problems using Intelligent Finite Element Methods. CM4P conference, Porto, Portugal**
+- **(2023) Efficient Finite Element Methods formed from Artificial Neural Networks for Solving CFD Problems. 22nd IACM Computational Fluids Conference, Cannes, France**
 
