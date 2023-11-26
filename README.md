@@ -13,7 +13,7 @@
 
 ## Outputs
 
-## Journal paper 
+## **Journal paper**
 - **[(2023) Solving the Dsicretised Diffusion Equation in Neutron Transport using Neural Networks. International Journal for Numerical Methods in Engineering](http://doi.org/10.1002/nme.7321)**
 - **[(2023) Solving the Discretised Boltzmann Transport Equations using Neural Networks: Applications in Neutron Transport. arXiv preprint](https://doi.org/10.48550/arXiv.2301.09991)**
 - **[(2023) Computational Modelling in Nuclear Science and Engineering: The Role of Artificial Intelligence. Nuclear Future Journal](https://www.nuclearinst.com/Nuclear-Future-19)**
