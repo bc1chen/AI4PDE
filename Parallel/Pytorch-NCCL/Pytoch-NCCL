@@ -2,5 +2,6 @@ Implementation of Message Passing in Pytorch from easy to hard (step by step)
 
 1. Foundemental flooding test -> 2D, no Multigrid (400 x 400) [Done]
 2. Carlisle flooding event -> 2D, no Multigrid (950 x 650)    [Done]
-3. South kensington case -> 3D, Multigrid (1024 x 1024 x 128)
-4. Collapsing water column case -> 3D, Multigridx2 (512 x 512 x 512)
+3. South kensington case -> 3D, Multigrid (1024 x 1024 x 128), Linear (one halo layer) [Done]
+4. Collapsing water column case -> 3D, Multigridx2 (512 x 512 x 512) [In progress]
+5. South kensington case -> 3D, Multigrid (1024 x 1025 x 128), Quadratic (two halo layers) [In progress]
