@@ -22,7 +22,7 @@ Libraries.](http://arxiv.org/abs/2401.06755)**
 - **[(2023) Solving the Discretised Boltzmann Transport Equations using Neural Networks: Applications in Neutron Transport. arXiv preprint](https://doi.org/10.48550/arXiv.2301.09991)**
 - **[(2023) Computational Modelling in Nuclear Science and Engineering: The Role of Artificial Intelligence. Nuclear Future Journal](https://www.nuclearinst.com/Nuclear-Future-19)**
 - **[(2023) Solving the Discretised Shallow Water Equations Using Neural Networks. (In preparation)]**
-- **[(2023) Implementing the Discontinuous-Galerkin Finite Element Method using Graph Neural Networks. (Submitted)]**
+- **[(2023) Implementing the Discontinuous-Galerkin Finite Element Method using Graph Neural Networks. (Under review)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4698813)**
 
 #### Conference paper 
 - **(2023) Solving Multiphase Flow Problems using Intelligent Finite Element Methods. CM4P conference, Porto, Portugal**
