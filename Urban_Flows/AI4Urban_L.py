@@ -173,7 +173,7 @@ if LIBM == True:
         sigma[0,0,i,:,:] = torch.tensor(mesh[0,128:1152,128:1152,i,0])
     sigma = sigma.transpose_(4, 3)
     sigma = torch.flip(sigma, [3])
-    sigma = torch.where(sigma == 0, 1e08, 0)
+    sigma = torch.where(sigma == 0, torch.tensor(1e08, dtype=torch.float32, device=device), torch.tensor(0, dtype=torch.float32, device=device))
     plt.imshow(sigma[0,0,4,:,:].cpu())
     plt.colorbar()
     plt.savefig('South_Kensington.jpg')
